@@ -1,10 +1,6 @@
-@import '../libs/vars';
-@import '../libs/functions';
-@import '../libs/mixins';
-
 ///
-/// Lens by HTML5 UP
-/// html5up.net | @n33co
+/// Phantom by HTML5 UP
+/// html5up.net | @ajlkn
 /// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 ///
 
@@ -18,33 +14,30 @@
 		@include vendor('appearance', 'none');
 		@include vendor('transition', (
 			'background-color #{_duration(transition)} ease-in-out',
-			'border-color #{_duration(transition)} ease-in-out',
-			'color #{_duration(transition)} ease-in-out'
+			'color #{_duration(transition)} ease-in-out',
+			'box-shadow #{_duration(transition)} ease-in-out'
 		));
 		background-color: transparent;
 		border-radius: _size(border-radius);
-		border: solid 1px _palette(border);
-		color: _palette(fg-bold);
+		border: 0;
+		box-shadow: inset 0 0 0 (_size(border-width) * 2) _palette(fg);
+		color: _palette(fg) !important;
 		cursor: pointer;
 		display: inline-block;
-		line-height: 1;
-		padding: 0.75em 1.5em;
+		font-size: 0.8em;
+		font-weight: _font(weight-bold);
+		height: 3.5em;
+		letter-spacing: _font(letter-spacing);
+		line-height: 3.45em;
+		overflow: hidden;
+		padding: 0 1.25em 0 #{1.25em + _font(letter-spacing)};
 		text-align: center;
 		text-decoration: none;
+		text-overflow: ellipsis;
+		text-transform: uppercase;
 		white-space: nowrap;
 
-		&:hover {
-			border-color: _palette(accent);
-			color: _palette(accent);
-
-			&:active {
-				background-color: transparentize(_palette(accent), 0.85);
-			}
-		}
-
 		&.icon {
-			padding-left: 1.35em;
-
 			&:before {
 				margin-right: 0.5em;
 			}
@@ -56,12 +49,35 @@
 			width: 100%;
 		}
 
+		&:hover {
+			color: _palette(accent1) !important;
+			box-shadow: inset 0 0 0 (_size(border-width) * 2) _palette(accent1);
+		}
+
+		&:active {
+			background-color: transparentize(_palette(accent1), 0.9);
+		}
+
 		&.small {
-			font-size: 0.8em;
+			font-size: 0.6em;
 		}
 
 		&.big {
-			font-size: 1.35em;
+			font-size: 1em;
+		}
+
+		&.special {
+			box-shadow: none;
+			background-color: _palette(fg);
+			color: _palette(bg) !important;
+
+			&:hover {
+				background-color: _palette(accent1);
+			}
+
+			&:active {
+				background-color: darken(_palette(accent1), 8);
+			}
 		}
 
 		&.disabled,

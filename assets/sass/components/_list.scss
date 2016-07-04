@@ -1,10 +1,6 @@
-@import '../libs/vars';
-@import '../libs/functions';
-@import '../libs/mixins';
-
 ///
-/// Lens by HTML5 UP
-/// html5up.net | @n33co
+/// Phantom by HTML5 UP
+/// html5up.net | @ajlkn
 /// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 ///
 
@@ -48,20 +44,11 @@
 			cursor: default;
 			list-style: none;
 			padding-left: 0;
+			margin: -1em 0 _size(element-margin) -1em;
 
 			li {
 				display: inline-block;
-				padding: 0 1em 0 0;
-
-				&:last-child {
-					padding-right: 0;
-				}
-
-				.icon {
-					&:before {
-						font-size: 1.5rem;
-					}
-				}
+				padding: 1em 0 0 1em;
 			}
 		}
 
@@ -136,6 +123,42 @@
 					}
 				}
 			}
+
+			@include breakpoint(xsmall) {
+				margin: 0 0 _size(element-margin) 0;
+
+				li {
+					padding: (_size(element-margin) * 0.5) 0 0 0;
+					display: block;
+					text-align: center;
+					width: 100%;
+
+					&:first-child {
+						padding-top: 0;
+					}
+
+					> * {
+						width: 100%;
+						margin: 0 !important;
+
+						&.icon {
+							&:before {
+								margin-left: -2em;
+							}
+						}
+					}
+				}
+
+				&.small {
+					li {
+						padding: (_size(element-margin) * 0.25) 0 0 0;
+
+						&:first-child {
+							padding-top: 0;
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -144,7 +167,7 @@
 
 		dt {
 			display: block;
-			font-weight: _font(weight);
+			font-weight: _font(weight-bold);
 			margin: 0 0 (_size(element-margin) * 0.5) 0;
 		}
 

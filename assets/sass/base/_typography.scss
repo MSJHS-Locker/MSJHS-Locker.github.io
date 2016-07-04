@@ -1,55 +1,45 @@
-@import '../libs/vars';
-@import '../libs/functions';
-@import '../libs/mixins';
-
 ///
-/// Lens by HTML5 UP
-/// html5up.net | @n33co
+/// Phantom by HTML5 UP
+/// html5up.net | @ajlkn
 /// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 ///
 
 /* Type */
 
-	html {
+	body, input, select, textarea {
+		color: _palette(fg);
+		font-family: _font(family);
 		font-size: 16pt;
+		font-weight: _font(weight);
+		line-height: 1.75;
 
 		@include breakpoint(xlarge) {
-			font-size: 12pt;
+			font-size: 14pt;
 		}
 
 		@include breakpoint(large) {
-			font-size: 11pt;
+			font-size: 12pt;
 		}
 	}
 
-	body {
-		background-color: _palette(bg);
-		color: _palette(fg);
-	}
-
-	body, input, select, textarea {
-		font-family: _font(family);
-		font-weight: _font(weight);
-		line-height: 1.65;
-		font-size: 1em;
-		color: _palette(fg);
-	}
-
 	a {
-		@include vendor('transition', ('color #{_duration(transition)} ease', 'border-bottom-color #{_duration(transition)} ease'));
-		border-bottom: dotted 1px;
-		color: inherit;
+		@include vendor('transition', (
+			'border-bottom-color #{_duration(transition)} ease',
+			'color #{_duration(transition)} ease'
+		));
 		text-decoration: none;
+		color: _palette(fg);
+		border-bottom: dotted 1px transparentize(_palette(fg), 0.5);
 
 		&:hover {
 			border-bottom-color: transparent;
-			color: _palette(accent);
+			color: _palette(accent1) !important;
 		}
 	}
 
 	strong, b {
-		font-weight: _font(weight);
 		color: _palette(fg-bold);
+		font-weight: _font(weight-bold);
 	}
 
 	em, i {
@@ -60,20 +50,43 @@
 		margin: 0 0 _size(element-margin) 0;
 	}
 
-	h1, h2, h3, h4, h5, h6 {
-		font-weight: _font(weight);
-		line-height: 1.25;
-		margin: 0 0 (_size(element-margin) * 0.4) 0;
+	h1 {
+		font-size: 2.75em;
 		color: _palette(fg-bold);
+		font-weight: _font(weight-bold-alt);
+		line-height: 1.3;
+		margin: 0 0 (_size(element-margin) * 0.5) 0;
+		letter-spacing: _font(letter-spacing-alt);
 
 		a {
 			color: inherit;
-			text-decoration: none;
+		}
+
+		@include breakpoint(small) {
+			font-size: 2em;
+			margin: 0 0 (_size(element-margin) * 0.5) 0;
+		}
+
+		@include breakpoint(xxsmall) {
+			font-size: 1.75em;
+		}
+	}
+
+	h2, h3, h4, h5, h6 {
+		color: _palette(fg-bold);
+		font-weight: _font(weight-bold);
+		line-height: 1.5;
+		margin: 0 0 (_size(element-margin) * 1) 0;
+		text-transform: uppercase;
+		letter-spacing: _font(letter-spacing);
+
+		a {
+			color: inherit;
 		}
 	}
 
 	h2 {
-		font-size: 1.25em;
+		font-size: 1.1em;
 	}
 
 	h3 {
@@ -81,7 +94,7 @@
 	}
 
 	h4 {
-		font-size: 0.9em;
+		font-size: 0.8em;
 	}
 
 	h5 {
@@ -89,7 +102,25 @@
 	}
 
 	h6 {
-		font-size: 0.7em;
+		font-size: 0.8em;
+	}
+
+	@include breakpoint(medium) {
+		h1, h2, h3, h4, h5, h6 {
+			br {
+				display: none;
+			}
+		}
+	}
+
+	@include breakpoint(small) {
+		h2 {
+			font-size: 1em;
+		}
+
+		h3 {
+			font-size: 0.8em;
+		}
 	}
 
 	sub {
@@ -112,13 +143,13 @@
 	}
 
 	code {
+		background: _palette(border-bg);
 		border-radius: _size(border-radius);
-		border: solid _size(border-width);
+		border: solid _size(border-width) _palette(border);
 		font-family: _font(family-fixed);
 		font-size: 0.9em;
 		margin: 0 0.25em;
 		padding: 0.25em 0.65em;
-		border-color: _palette(border);
 	}
 
 	pre {
@@ -129,6 +160,7 @@
 
 		code {
 			display: block;
+			line-height: 1.75;
 			padding: 1em 1.5em;
 			overflow-x: auto;
 		}
