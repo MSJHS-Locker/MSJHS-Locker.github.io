@@ -7,6 +7,18 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        
+        <script>
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyCUZIg1zHISCCTcEBf_XKQ_gxeeuapy7Nc",
+            authDomain: "locker-map.firebaseapp.com",
+            databaseURL: "https://locker-map.firebaseio.com",
+            storageBucket: "locker-map.appspot.com",
+          };
+          firebase.initializeApp(config);
+        </script>
+        
 		<script>
 			function mailserver(){
 				alert("MSJ does not have a mailserver.");
@@ -169,5 +181,6 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
 	</body>
 </html>
