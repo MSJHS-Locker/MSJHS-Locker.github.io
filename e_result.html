@@ -1,5 +1,61 @@
+<!DOCTYPE html>
 <html>
-	<header>
-        <h1>E WING</h1>
-    </header>
+	<head>
+        <meta charset="utf-8">
+        <title>E Wing</title>
+        
+        <script>
+            var qs = (function(a) {
+                if (a == "") return {};
+                var b = {};
+                for (var i = 0; i < a.length; ++i)
+                {
+                    var p=a[i].split('=', 2);
+                    if (p.length == 1)
+                        b[p[0]] = "";
+                    else
+                        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+                }
+                return b;
+            })(window.location.search.substr(1).split('&'));
+        </script>
+
+    </head>
+    <body>
+        
+        <script type="text/javascript">
+            document.write(qs["number"]);
+        </script>
+
+    <h1 id="position"></h1>
+        
+        <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+        <script>
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyCUZIg1zHISCCTcEBf_XKQ_gxeeuapy7Nc",
+            authDomain: "locker-map.firebaseapp.com",
+            databaseURL: "https://locker-map.firebaseio.com",
+            storageBucket: "locker-map.appspot.com",
+          };
+          firebase.initializeApp(config);
+
+        var position = document.getElementById('position');
+        //var dbRef = firebase.database().ref().child('44').child('position');
+        //var dbRef = firebase.database().ref().orderByChild('position').equalTo("top").startAt('1535').endAt('1795');    
+        //dbRef.on('value', snap => position.innerText = snap.val());
+            
+        var ref = firebase.database().ref().orderByChild('position').equalTo('top').on('child_added', function(snapshot){
+            document.write(snapshot.key());
+        });
+            
+        </script>
+        
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/skel.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+        <script src="assets/js/main.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+    </body>
 </html>
