@@ -1,5 +1,84 @@
+<!DOCTYPE html>
 <html>
-	<header>
-        <h1>C WING</h1>
-    </header>
+	<head>
+        <meta charset="utf-8">
+        <title>E Wing</title>
+        
+        <script>
+            var qs = (function(a) {
+                if (a == "") return {};
+                var b = {};
+                for (var i = 0; i < a.length; ++i)
+                {
+                    var p=a[i].split('=', 2);
+                    if (p.length == 1)
+                        b[p[0]] = "";
+                    else
+                        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+                }
+                return b;
+            })(window.location.search.substr(1).split('&'));
+        </script>
+        
+        <style>
+        	#tag_bar{float:left; padding: 10px; height:100vh; width: 150px;border-right:1px solid black; overflow:auto;position:fixed;}
+	       #tag_list{list-style:none;}
+	       li{margin:10px 0px;}
+        </style>
+    </head>
+    <body>
+
+    <h1 id="position"></h1>
+        
+    <div id="tag_bar">
+        <ul id = "tag_list">
+        </ul>
+        <br>
+        <br>
+    </div>
+        
+        <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+        <script>
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyCUZIg1zHISCCTcEBf_XKQ_gxeeuapy7Nc",
+            authDomain: "locker-map.firebaseapp.com",
+            databaseURL: "https://locker-map.firebaseio.com",
+            storageBucket: "locker-map.appspot.com",
+          };
+          firebase.initializeApp(config);
+
+        var position = document.getElementById('position');
+        var nCheck = qs["number"];
+        if(!(nCheck === "")){
+            var ndbRef = firebase.database().ref().child(qs["number"]).child('position');   
+            ndbRef.on('value', snap => position.innerText = snap.val());
+        }
+        
+		function displayList(name) {
+			var element = document.getElementById("tag_list");
+			element.innerHTML += "<li><a href=\"#" + name + "\">" + name + "</a></li>"; 
+		};
+        
+        var pCheck = qs["position"];
+        if(!(pCheck === "")){
+            var pdbRef = firebase.database().ref().orderByChild('position').equalTo(pCheck);
+            pdbRef.once('value', function(snapshot) {
+              snapshot.forEach(function(data){
+                    var key = data.key;
+                    if((key >= 917) && (key <= 1060) ){
+                        displayList(key);
+                    }
+              });
+            });    
+        }
+        </script>
+        
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/skel.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+        <script src="assets/js/main.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+    </body>
 </html>
