@@ -55,7 +55,9 @@
         var nCheck = qs["number"];
         if(!(nCheck === "")){
             var ndbRef = firebase.database().ref().child(qs["number"]).child('position');   
-            ndbRef.on('value', snap => position.innerText = snap.val());
+            nbdRef.on('value', function(snapshot){
+                positon.innerText = snapshot.val();
+            });
         }
         
 		function displayList(name) {
