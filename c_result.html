@@ -58,9 +58,8 @@
         var position = document.getElementById('position');
         var nCheck = qs["number"];
         if(!(nCheck === "")){
-            var ndbRef = firebase.database().ref().child(nCheck).child('position');   
-            nbdRef.on('value', function(snapshot){
-                positon.innerText = snapshot.val();
+            firebase.database().ref().child(nCheck).child('position').on('value', function(snapshot){
+                position.innerText = snapshot.val();
             });
         }
         
