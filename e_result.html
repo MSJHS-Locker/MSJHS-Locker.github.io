@@ -23,22 +23,26 @@
             })(window.location.search.substr(1).split('&'));
         </script>
         
-        <style>
+        <!--<style>
         	#tag_bar{float:left; padding: 10px; height:100vh; width: 150px;border-right:1px solid black; overflow:auto;position:fixed;}
 	       #tag_list{list-style:none;}
 	       li{margin:10px 0px;}
-        </style>
+        </style> -->
     </head>
     <body>
 
     <h1 id="position"></h1>
         
-    <div id="tag_bar">
+    <!--<div id="tag_bar">
         <ul id = "tag_list">
         </ul>
         <br>
         <br>
-    </div>
+    </div> -->
+        
+    <ul id="list" style="list-style: none;">
+        
+    </ul>
         
         <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
         <script>
@@ -60,11 +64,22 @@
             });
         }
         
-		function displayList(name) {
+		/*function displayList(name) {
 			var element = document.getElementById("tag_list");
 			element.innerHTML += "<li><a href=\"#" + name + "\">" + name + "</a></li>"; 
-		};
+		}; */
         
+        function displayList(name) {
+            var ul = document.getElementById("list");
+            var li = document.createElement("li");
+            li.appendChild(document.createTextNode(name));
+            li.setAttribute("id", name);
+            ul.appendChild(li);
+            document.getElementById(name).onclick = function() {
+                alert(name);
+            };
+        }   
+            
         var pCheck = qs["position"];
         if(!(pCheck === "")){
             var pdbRef = firebase.database().ref().orderByChild('position').equalTo(pCheck);
