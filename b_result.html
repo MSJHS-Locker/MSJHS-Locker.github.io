@@ -44,52 +44,84 @@
         
     </ul>
         
-        <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script>
         <script>
           // Initialize Firebase
-          var config = {
+        var config = {
             apiKey: "AIzaSyCUZIg1zHISCCTcEBf_XKQ_gxeeuapy7Nc",
             authDomain: "locker-map.firebaseapp.com",
             databaseURL: "https://locker-map.firebaseio.com",
             storageBucket: "locker-map.appspot.com",
-          };
-          firebase.initializeApp(config);
+        };
+        firebase.initializeApp(config);
+            
+        var database = firebase.database();
 
+        var tfResult;    
+            
         var position = document.getElementById('position');
         var nCheck = qs["number"];
         if(!(nCheck === "")){
-            firebase.database().ref().child(nCheck).child('position').on('value', function(snapshot){
+            database.ref().child(nCheck).child('position').on('value', function(snapshot){
                 position.innerText = snapshot.val();
             });
         }
-        
-		/*function displayList(name) {
-			var element = document.getElementById("tag_list");
-			element.innerHTML += "<li><a href=\"#" + name + "\">" + name + "</a></li>"; 
-		}; */
-        
-        function displayList(name) {
+                   
+        function getEventTarget(e) {
+            e = e || window.event;
+            return e.target || e.srcElement; 
+        }
+
+        function displayList(name) {            
             var ul = document.getElementById("list");
             var li = document.createElement("li");
             li.appendChild(document.createTextNode(name));
             li.setAttribute("id", name);
             ul.appendChild(li);
-            document.getElementById(name).onclick = function() {
-                alert(name);
-            };
-        }   
+            var text = document.getElementById(name);
             
+            database.ref().child(name).child('taken').on('value', function(snapshot){
+                var result = snapshot.val();
+                if(result === "true"){
+                    text.style.color = 'red';
+                }
+                
+                if(result === "false"){
+                    text.style.color = 'green';
+                }
+            });
+                
+            text.addEventListener("click", function(){
+                database.ref().child(name).child('taken').on('value', function(snapshot){
+                    tfResult = snapshot.val();
+                });
+                
+            if(tfResult === "true"){
+                database.ref().child(name).child('taken').set('false');
+            }
+                    
+            else if(tfResult === "false"){
+                database.ref().child(name).child('taken').set('true');
+            }
+            });
+        }
+ 
         var pCheck = qs["position"];
         if(!(pCheck === "")){
-            var pdbRef = firebase.database().ref().orderByChild('position').equalTo(pCheck);
+            var pdbRef = database.ref().orderByChild('position').equalTo(pCheck);
             pdbRef.once('value', function(snapshot) {
               snapshot.forEach(function(data){
                     var key = data.key;
-                    if((key >= 432) && (key <= 915) ){
+                    if((key >= 432) && (key <= 916) ){
                         displayList(key);
                     }
               });
             });    
+        }
+            
+        var reply_click = function()
+        {
+            alert("Button clicked, id "+this.id+", text"+this.innerHTML);
         }
         </script>
         
