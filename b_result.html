@@ -56,6 +56,7 @@
         firebase.initializeApp(config);
             
         var database = firebase.database();
+        var auth = firebase.auth();
 
         var tfResult;    
             
@@ -91,19 +92,23 @@
                 }
             });
                 
-            text.addEventListener("click", function(){
-                database.ref().child(name).child('taken').on('value', function(snapshot){
-                    tfResult = snapshot.val();
-                });
+            var user = auth.currentUser;
+            
+            if(user){
+                text.addEventListener("click", function(){
+                    database.ref().child(name).child('taken').on('value', function(snapshot){
+                        tfResult = snapshot.val();
+                    });
                 
-            if(tfResult === "true"){
-                database.ref().child(name).child('taken').set('false');
+                    if(tfResult === "true"){
+                        database.ref().child(name).child('taken').set('false');
+                    }
+
+                    else if(tfResult === "false"){
+                        database.ref().child(name).child('taken').set('true');
+                    }
+                });
             }
-                    
-            else if(tfResult === "false"){
-                database.ref().child(name).child('taken').set('true');
-            }
-            });
         }
  
         var pCheck = qs["position"];

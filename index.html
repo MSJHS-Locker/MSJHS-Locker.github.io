@@ -10,10 +10,50 @@
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 
-		<script>
+		<script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script>
+        <script>
+          // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyCUZIg1zHISCCTcEBf_XKQ_gxeeuapy7Nc",
+                authDomain: "locker-map.firebaseapp.com",
+                databaseURL: "https://locker-map.firebaseio.com",
+                storageBucket: "locker-map.appspot.com",
+            };
+            firebase.initializeApp(config);
+            var auth = firebase.auth();
+
 			function mailserver(){
 				alert("MSJ does not have a mailserver.");
 			}
+            
+            function userLogin(){
+                var emailValue = document.getElementById("email").value;
+                var passwordValue = document.getElementById("password").value;
+                if(emailValue !== "" && passwordValue !== ""){
+                    auth.signInWithEmailAndPassword(emailValue, passwordValue).catch(function(error){
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                    });
+                }
+                
+                var delay=1500; //1 second
+                setTimeout(function() {
+                    var user = auth.currentUser;
+                    if(user){
+                        alert("Logged in");
+                    } else{
+                        alert("Login failed");
+                    }
+                }, delay);
+            }
+            
+            function userSignOut(){
+                auth.signOut().then(function(){
+                    alert("Signed Out");
+                }, function(error) {
+                    alert("Sign Out Failed");
+                });
+            }
 		</script>
 	</head>
 	<body>
@@ -70,8 +110,8 @@
 										<div class="content">
 											<p>Lockers 432-635. 510-578 are not under a building roof, but have a locker roof to shelter belongings from rain.</p>
 											<form id="p" method="link" action="b_result.html">
-											<input type="text" name="number" placeholder="Locker Number">
-											<input type="text" name="position" placeholder="Locker Position (1-3)">
+											<input type="text" autocomplete="off" name="number" placeholder="Locker Number">
+											<input type="text" autocomplete="off" name="position" placeholder="Locker Position (1-3)">
 											</form>
 											<button type="submit" form="p" value="Sumbit">Submit</button>
 										</div>
@@ -87,8 +127,8 @@
 										<div class="content">
 											<p>Lockers 704-916. 767-808 and 845-916 are not under a building roof, but have a locker roof to shelter belongings from rain. </p>
 											<form id="p" method="link" action="b2_result.html">
-											<input type="text" name="number" placeholder="Locker Number">
-											<input type="text" name="position" placeholder="Locker Position (1-3)">
+											<input type="text" autocomplete="off" name="number" placeholder="Locker Number">
+											<input type="text" autocomplete="off" name="position" placeholder="Locker Position (1-3)">
 											</form>
 											<button type="submit" form="p" value="Sumbit">Submit</button>
 										</div>
@@ -104,8 +144,8 @@
 										<div class="content">
 											<p>Lockers 1-431. Recommended for Freshmen.</p>
 											<form id="b" method="link" action="n_result.html">
-											<input type="text" name="number" placeholder="Locker Number">
-											<input type="text" name="position" placeholder="Locker Position (1-4)">
+											<input type="text" autocomplete="off" name="number" placeholder="Locker Number">
+											<input type="text" autocomplete="off" name="position" placeholder="Locker Position (1-4)">
 											</form>
 											<button type="submit" form="b" value="Sumbit">Submit</button>
 										</div>
@@ -115,13 +155,13 @@
 									<span class="image">
 										<img src="images/pic03.jpg" alt="" />
 									</span>
-									<a href="#">
+									<a>
 										<h2>C Wing</h2>
 										<div class="content">
 											<p>Lockers 917-1060. Located in the corridor between the C-Wing Cafeteria and the Bell Tower Quad. </p>
 											<form id="e" method="link" action="c_result.html">
-											<input type="text" name="number" placeholder="Locker Number">
-											<input type="text" name="position" placeholder="Locker Position (1-4)">
+											<input type="text" autocomplete="off" name="number" placeholder="Locker Number">
+											<input type="text" autocomplete="off" name="position" placeholder="Locker Position (1-4)">
 											</form>
 											<button type="submit" form="e" value="Sumbit">Submit</button>
 										</div>
@@ -136,14 +176,31 @@
 										<div class="content">
 											<p>Lockers 1535-1795.</p>
 											<form id="a" method="link" action="e_result.html">
-											<input type="text" name="number" placeholder="Locker Number">
-											<input type="text" name="position" placeholder="Locker Position (1-3)">
+											<input type="text" autocomplete="off" name="number" placeholder="Locker Number">
+											<input type="text" autocomplete="off" name="position" placeholder="Locker Position (1-3)">
 											</form>
 											<button type="submit" form="a" value="Sumbit">Submit</button>
 										</div>
 									</a>
 								</article>
-							</section>
+                                
+                                <article class="style6">
+									<span class="image">
+										<img src="images/pic06.jpg" alt="" />
+									</span>
+									<a>
+										<h2>Login As Admin</h2>
+										<div class="content">
+											<p>Access admin priveleges.</p>
+											<form id="a" method="link" action="">
+											<input type="text" autocomplete="off" id="email" placeholder="Email">
+											<input type="text" autocomplete="off" id="password" placeholder="Password">
+											</form>
+											<button type="submit" onClick="userLogin();" value="Sumbit">Login</button>
+										</div>
+									</a>
+								</article>
+							</section>                               
 						</div>
 					</div>
 <!--
@@ -185,6 +242,8 @@
 						</div>
 					</footer> -->
 			</div> 
+        
+            <button id="signOut" onClick="userSignOut();" type="button">Sign Out</button>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
@@ -192,5 +251,6 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
 	</body>
 </html>
