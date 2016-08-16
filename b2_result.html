@@ -1,140 +1,147 @@
 <!DOCTYPE html>
 <html>
-	<head>
-        <meta charset="utf-8">
-        <title>B Wing (Near Office)</title>
-        
-        <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-        <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-        
-        <script>
-            var qs = (function(a) {
-                if (a == "") return {};
-                var b = {};
-                for (var i = 0; i < a.length; ++i)
-                {
-                    var p=a[i].split('=', 2);
-                    if (p.length == 1)
-                        b[p[0]] = "";
-                    else
-                        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
-                }
-                return b;
-            })(window.location.search.substr(1).split('&'));
-        </script>
-        
-        <!--<style>
+
+<head>
+    <meta charset="utf-8">
+    <title>B Wing (Near Mission Boulevard)</title>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <script>
+        var qs = (function (a) {
+            if (a == "") return {};
+            var b = {};
+            for (var i = 0; i < a.length; ++i) {
+                var p = a[i].split('=', 2);
+                if (p.length == 1) b[p[0]] = "";
+                else b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+            }
+            return b;
+        })(window.location.search.substr(1).split('&'));
+    </script>
+    <!--<style>
         	#tag_bar{float:left; padding: 10px; height:100vh; width: 150px;border-right:1px solid black; overflow:auto;position:fixed;}
 	       #tag_list{list-style:none;}
 	       li{margin:10px 0px;}
         </style> -->
-    </head>
-    <body>
+</head>
+<style>
+    li {
+        display: table;
+        padding: 5px;
+        border-radius: 2px;
+    }
+</style>
 
+<body>
     <h1 id="position"></h1>
-        
     <!--<div id="tag_bar">
         <ul id = "tag_list">
         </ul>
         <br>
         <br>
     </div> -->
-        
-    <ul id="list" style="list-style: none;">
-        
-    </ul>
-        
-        <script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script>
-        <script>
-          // Initialize Firebase
+    <ul id="list" style="list-style: none; padding: 0;"></ul>
+    <ul id="list2" style="list-style: none; padding: 0;"></ul>
+    <ul id="list3" style="list-style: none; padding: 0;"></ul>
+    <ul id="list4" style="list-style: none; padding: 0;"></ul> <img src="images/b1-wing.png" style="float: right">
+    <script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
         var config = {
-            apiKey: "AIzaSyCUZIg1zHISCCTcEBf_XKQ_gxeeuapy7Nc",
-            authDomain: "locker-map.firebaseapp.com",
-            databaseURL: "https://locker-map.firebaseio.com",
-            storageBucket: "locker-map.appspot.com",
-        };
+            apiKey: "AIzaSyCUZIg1zHISCCTcEBf_XKQ_gxeeuapy7Nc"
+            , authDomain: "locker-map.firebaseapp.com"
+            , databaseURL: "https://locker-map.firebaseio.com"
+            , storageBucket: "locker-map.appspot.com"
+        , };
         firebase.initializeApp(config);
-            
         var database = firebase.database();
         var auth = firebase.auth();
-
-        var tfResult;    
-            
+        var tfResult;
         var position = document.getElementById('position');
         var nCheck = qs["number"];
-        if(!(nCheck === "")){
-            database.ref().child(nCheck).child('position').on('value', function(snapshot){
+        if (!(nCheck === "")) {
+            database.ref().child(nCheck).child('position').on('value', function (snapshot) {
                 position.innerText = snapshot.val();
             });
         }
-                   
+
         function getEventTarget(e) {
             e = e || window.event;
-            return e.target || e.srcElement; 
+            return e.target || e.srcElement;
         }
 
-        function displayList(name) {            
-            var ul = document.getElementById("list");
+        function displayList(name) {
+            if (704 <= name && name <= 766) {
+                var ul = document.getElementById("list");
+                ul.style.border = "5px solid red";
+                ul.style.display = "inline-block"
+            }
+            if (767 <= name && name <= 808) {
+                var ul = document.getElementById("list2");
+                ul.style.border = "5px solid yellow";
+                ul.style.display = "inline-block"
+            }
+            if (809 <= name && name <= 844) {
+                var ul = document.getElementById("list3");
+                ul.style.border = "5px solid green";
+                ul.style.display = "inline-block"
+            }
+            if (845 <= name && name <= 915) {
+                var ul = document.getElementById("list4");
+                ul.style.border = "5px solid blue";
+                ul.style.display = "inline-block"
+            }
             var li = document.createElement("li");
             li.appendChild(document.createTextNode(name));
             li.setAttribute("id", name);
             ul.appendChild(li);
             var text = document.getElementById(name);
-            
-            database.ref().child(name).child('taken').on('value', function(snapshot){
+            database.ref().child(name).child('taken').on('value', function (snapshot) {
                 var result = snapshot.val();
-                if(result === "true"){
+                if (result === "true") {
                     text.style.color = 'red';
                 }
-                
-                if(result === "false"){
+                if (result === "false") {
                     text.style.color = 'green';
                 }
             });
-                
             var user = auth.currentUser;
-            
-            if(user){
-                text.addEventListener("click", function(){
-                    database.ref().child(name).child('taken').on('value', function(snapshot){
+            if (user) {
+                text.addEventListener("click", function () {
+                    database.ref().child(name).child('taken').on('value', function (snapshot) {
                         tfResult = snapshot.val();
                     });
-                
-                    if(tfResult === "true"){
+                    if (tfResult === "true") {
                         database.ref().child(name).child('taken').set('false');
                     }
-
-                    else if(tfResult === "false"){
+                    else if (tfResult === "false") {
                         database.ref().child(name).child('taken').set('true');
                     }
                 });
             }
         }
- 
         var pCheck = qs["position"];
-        if(!(pCheck === "")){
+        if (!(pCheck === "")) {
             var pdbRef = database.ref().orderByChild('position').equalTo(pCheck);
-            pdbRef.once('value', function(snapshot) {
-              snapshot.forEach(function(data){
+            pdbRef.once('value', function (snapshot) {
+                snapshot.forEach(function (data) {
                     var key = data.key;
-                    if((key >= 704) && (key <= 916) ){
+                    if ((key >= 704) && (key <= 916)) {
                         displayList(key);
                     }
-              });
-            });    
+                });
+            });
         }
-            
-        var reply_click = function()
-        {
-            alert("Button clicked, id "+this.id+", text"+this.innerHTML);
+        var reply_click = function () {
+            alert("Button clicked, id " + this.id + ", text" + this.innerHTML);
         }
-        </script>
-        
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/skel.min.js"></script>
-        <script src="assets/js/util.js"></script>
-        <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-        <script src="assets/js/main.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
-    </body>
+    </script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="assets/js/main.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+</body>
+
 </html>
